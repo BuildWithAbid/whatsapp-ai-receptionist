@@ -1,0 +1,44 @@
+name: Feature request
+description: Suggest a meaningful improvement to the open-source project
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please explain the real problem and why this should exist in the project.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: What user or maintainer problem does this address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the simplest viable solution you have in mind.
+    validations:
+      required: true
+  - type: textarea
+    id: tradeoffs
+    attributes:
+      label: Alternatives or tradeoffs
+      description: List alternatives, tradeoffs, or reasons this may not belong in MVP.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Auth
+        - Dashboard
+        - Settings
+        - Webhook
+        - AI logic
+        - Database / Prisma
+        - Docs
+        - Deployment
+    validations:
+      required: true

@@ -1,13 +1,16 @@
 import { z } from "zod";
 
 const envSchema = z.object({
-  DATABASE_URL: z.string().min(1),
+  DATABASE_URL: z
+    .string()
+    .min(1)
+    .default("postgresql://postgres:postgres@localhost:5432/whatsapp_ai_receptionist?schema=public"),
   NEXTAUTH_URL: z.string().url().default("http://localhost:3000"),
-  NEXTAUTH_SECRET: z.string().min(16),
+  NEXTAUTH_SECRET: z.string().min(16).default("development-only-secret-change-me"),
   OPENAI_API_KEY: z.string().optional().default(""),
   OPENAI_MODEL: z.string().default("gpt-4.1-mini"),
   WHATSAPP_ACCESS_TOKEN: z.string().optional().default(""),
-  WHATSAPP_WEBHOOK_VERIFY_TOKEN: z.string().min(1),
+  WHATSAPP_WEBHOOK_VERIFY_TOKEN: z.string().min(1).default("development-verify-token"),
   WHATSAPP_APP_SECRET: z.string().optional().default(""),
   APP_BASE_URL: z.string().url().default("http://localhost:3000"),
   LOG_LEVEL: z.enum(["fatal", "error", "warn", "info", "debug", "trace", "silent"]).default("info"),

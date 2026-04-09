@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security issue
+    url: https://github.com/BuildWithAbid/whatsapp-ai-receptionist/security
+    about: Please use private reporting for security issues instead of public issues.

@@ -2,6 +2,23 @@
 
 Production-minded MVP for a multi-tenant SaaS that helps local businesses automate WhatsApp customer conversations for FAQs, lead capture, and booking requests.
 
+[![CI](https://github.com/BuildWithAbid/whatsapp-ai-receptionist/actions/workflows/ci.yml/badge.svg)](https://github.com/BuildWithAbid/whatsapp-ai-receptionist/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](./LICENSE)
+
+## Open Source Status
+
+This repository is intentionally open source under the Apache License 2.0.
+
+You can:
+
+- use it commercially
+- self-host it
+- fork it
+- modify it
+- build products or agency offerings on top of it
+
+You should still review the license, secure your own deployment, and comply with local privacy and messaging regulations.
+
 ## Stack
 
 - Next.js 16 App Router
@@ -43,6 +60,13 @@ Production-minded MVP for a multi-tenant SaaS that helps local businesses automa
   - human handoff escalation
 - Basic audit-friendly logging and audit log table
 - Dockerized local setup
+
+## Community and Maintainer Docs
+
+- [Contributing guide](./CONTRIBUTING.md)
+- [Code of conduct](./CODE_OF_CONDUCT.md)
+- [Security policy](./SECURITY.md)
+- [Apache 2.0 license](./LICENSE)
 
 ## Architecture Summary
 
@@ -239,6 +263,24 @@ The compose file expects `.env` to exist.
 - Deploy to Fly.io, Railway, Render, ECS, or another container platform
 - Point `DATABASE_URL` at a managed PostgreSQL instance
 
+## Open-Source Usage Notes
+
+- The repository is open source. Hosted operations are not included.
+- Do not commit real credentials, tokens, customer data, or production logs.
+- If you deploy this for real businesses, you are responsible for operational hardening, backups, privacy compliance, abuse prevention, and support.
+- The current in-memory rate limiter is suitable for development and small single-instance deployments, not large distributed production traffic.
+
+## How To Help
+
+Useful contributions include:
+
+- stronger tests around tenant isolation and webhook flows
+- queue-based processing for webhook scalability
+- better observability and metrics
+- richer booking workflows
+- team-member support beyond the single-owner MVP model
+- deployment guides for more hosting platforms
+
 ## Notes and MVP Boundaries
 
 - One owner account per workspace
@@ -246,3 +288,7 @@ The compose file expects `.env` to exist.
 - Booking requests are not calendar-synced appointments
 - AI escalation is the fallback when confidence is low or business data is incomplete
 - Rate limiting is in-memory for MVP simplicity; distributed rate limiting should be added before high-scale multi-instance deployment
+
+## License
+
+Licensed under the Apache License 2.0. See [LICENSE](./LICENSE).

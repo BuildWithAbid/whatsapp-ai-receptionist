@@ -1,7 +1,31 @@
 {
   "name": "whats-app",
   "version": "0.1.0",
+  "description": "Open-source multi-tenant SaaS MVP for automating WhatsApp FAQs, lead capture, and booking requests for small businesses.",
   "private": true,
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/BuildWithAbid/whatsapp-ai-receptionist",
+  "bugs": {
+    "url": "https://github.com/BuildWithAbid/whatsapp-ai-receptionist/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BuildWithAbid/whatsapp-ai-receptionist.git"
+  },
+  "keywords": [
+    "nextjs",
+    "typescript",
+    "saas",
+    "whatsapp",
+    "openai",
+    "prisma",
+    "postgresql",
+    "multi-tenant",
+    "automation"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
