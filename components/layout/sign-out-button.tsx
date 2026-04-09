@@ -1,0 +1,20 @@
+"use client";
+
+import { signOut } from "next-auth/react";
+import { LogOut } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+
+export function SignOutButton() {
+  return (
+    <Button
+      type="button"
+      variant="ghost"
+      onClick={() => signOut({ callbackUrl: "/sign-in" })}
+      className="justify-start"
+    >
+      <LogOut className="size-4" />
+      Sign out
+    </Button>
+  );
+}

@@ -1,0 +1,203 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ConversationStatus {
+  OPEN
+  NEEDS_HUMAN
+  CLOSED
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+enum BookingRequestStatus {
+  NEW
+  CONTACTED
+  CONFIRMED
+  CLOSED
+}
+
+enum MessageDirection {
+  INBOUND
+  OUTBOUND
+}
+
+enum MessageRole {
+  CUSTOMER
+  ASSISTANT
+  SYSTEM
+}
+
+enum MessageDeliveryStatus {
+  RECEIVED
+  SENT
+  FAILED
+  PENDING
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  name         String?
+  business     Business?
+  auditLogs    AuditLog[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Business {
+  id                        String           @id @default(cuid())
+  ownerUserId               String           @unique
+  ownerUser                 User             @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
+  name                      String
+  category                  String
+  timezone                  String           @default("UTC")
+  phoneNumber               String?
+  location                  String?
+  whatsappPhoneNumberId     String?          @unique
+  whatsappBusinessAccountId String?
+  whatsappDisplayPhone      String?
+  botSetting                BotSetting?
+  faqs                      FAQ[]
+  conversations             Conversation[]
+  messages                  Message[]
+  leads                     Lead[]
+  bookingRequests           BookingRequest[]
+  auditLogs                 AuditLog[]
+  createdAt                 DateTime         @default(now())
+  updatedAt                 DateTime         @updatedAt
+
+  @@index([name])
+}
+
+model BotSetting {
+  id                    String   @id @default(cuid())
+  businessId            String   @unique
+  business              Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  openingHours          String?
+  servicesOffered       String?
+  pricingNotes          String?
+  toneOfVoice           String?
+  escalationMessage     String
+  leadCaptureEnabled    Boolean  @default(true)
+  bookingCaptureEnabled Boolean  @default(true)
+  autoReplyEnabled      Boolean  @default(true)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model FAQ {
+  id         String   @id @default(cuid())
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  question   String
+  answer     String
+  sortOrder  Int      @default(0)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([businessId, sortOrder])
+}
+
+model Conversation {
+  id              String             @id @default(cuid())
+  businessId      String
+  business        Business           @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customerPhone   String
+  customerName    String?
+  status          ConversationStatus @default(OPEN)
+  lastMessageAt   DateTime           @default(now())
+  unansweredCount Int                @default(0)
+  messages        Message[]
+  leads           Lead[]
+  bookingRequests BookingRequest[]
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@unique([businessId, customerPhone])
+  @@index([businessId, lastMessageAt(sort: Desc)])
+  @@index([businessId, status])
+}
+
+model Message {
+  id               String                @id @default(cuid())
+  businessId       String
+  business         Business              @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  conversationId   String
+  conversation     Conversation          @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  channelMessageId String?               @unique
+  direction        MessageDirection
+  role             MessageRole
+  messageType      String                @default("text")
+  content          String
+  deliveryStatus   MessageDeliveryStatus @default(PENDING)
+  metadata         Json?
+  createdAt        DateTime              @default(now())
+
+  @@index([businessId, createdAt(sort: Desc)])
+  @@index([conversationId, createdAt(sort: Desc)])
+}
+
+model Lead {
+  id             String        @id @default(cuid())
+  businessId     String
+  business       Business      @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  conversationId String?
+  conversation   Conversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
+  name           String?
+  phone          String
+  serviceNeeded  String?
+  status         LeadStatus    @default(NEW)
+  notes          String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([businessId, status])
+  @@index([businessId, phone])
+}
+
+model BookingRequest {
+  id                String               @id @default(cuid())
+  businessId        String
+  business          Business             @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  conversationId    String?
+  conversation      Conversation?        @relation(fields: [conversationId], references: [id], onDelete: SetNull)
+  name              String?
+  phone             String
+  serviceRequested  String?
+  preferredDateText String?
+  preferredTimeText String?
+  status            BookingRequestStatus @default(NEW)
+  notes             String?
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+
+  @@index([businessId, status])
+  @@index([businessId, phone])
+}
+
+model AuditLog {
+  id         String    @id @default(cuid())
+  businessId String?
+  business   Business? @relation(fields: [businessId], references: [id], onDelete: SetNull)
+  userId     String?
+  user       User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action     String
+  entityType String
+  entityId   String
+  payload    Json?
+  createdAt  DateTime  @default(now())
+
+  @@index([businessId, createdAt(sort: Desc)])
+}
