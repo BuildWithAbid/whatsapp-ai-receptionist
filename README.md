@@ -4,6 +4,7 @@ Production-minded MVP for a multi-tenant SaaS that helps local businesses automa
 
 [![CI](https://github.com/BuildWithAbid/whatsapp-ai-receptionist/actions/workflows/ci.yml/badge.svg)](https://github.com/BuildWithAbid/whatsapp-ai-receptionist/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](./LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 
 ## Open Source Status
 
@@ -67,6 +68,22 @@ You should still review the license, secure your own deployment, and comply with
 - [Code of conduct](./CODE_OF_CONDUCT.md)
 - [Security policy](./SECURITY.md)
 - [Apache 2.0 license](./LICENSE)
+- [Roadmap](./ROADMAP.md)
+- [Demo deployment guide](./DEMO_DEPLOYMENT.md)
+
+## Screenshots
+
+### Landing page
+
+![Landing page](./.github/assets/landing-page.png)
+
+### Sign-in
+
+![Sign-in page](./.github/assets/sign-in.png)
+
+### Sign-up
+
+![Sign-up page](./.github/assets/sign-up.png)
 
 ## Architecture Summary
 
